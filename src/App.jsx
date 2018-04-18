@@ -1,8 +1,9 @@
 import './App.less';
 import React from 'react';
 import PropTypes from 'prop-types';
+import DatePicker from 'react-date-picker';
 import { connect } from 'react-redux';
-import { addData } from './store/actions/actions';
+import { addData, addFromData } from './store/actions/actions';
 import utils from './utils/utils';
 
 
@@ -10,37 +11,49 @@ const mapStateToProps = (state) => ({
   data: state.data.data,
   fromDate: state.data.fromDate,
 });
+const mapDispatchToProps = (dispatch) => ({
+  addFromData: (date) => dispatch(addFromData(date)),
+  addData: (data) => dispatch(addData(data))
+});
 
-@connect(mapStateToProps)
+@connect(mapStateToProps, mapDispatchToProps)
 class App extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      date: new Date(2018, 0, 1)
+    }
   }
 
   componentWillMount () {
-    fetch(utils.getURL(this.props.fromDate))
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        const neededData = data.items.filter((item) => {
-          const test = /react-redux/i.test(item.title);
-          return item.is_answered && test;
-        });
-        this.props.dispatch(addData(neededData));
-      });
+    utils.getData(this.props.fromDate, this.props.addData);
   }
 
   renderList() {
     return <ol>
       {this.props.data.map((item, i) => {
-        return i < 5 ? <li key={i} className="list-item"><p>{item.title}</p><p>Score: {item.score}</p></li> : null;
+        const answered = item.is_answered ? 'answered' : 'no-answered';
+
+        return i < 5 ? <li key={i} className={`list-item ${answered}`}><p>{item.title}</p><p>Score: {item.score}</p></li> : null;
       }).filter((item) => item)}
     </ol>
   }
 
+  onChange(date) {
+    this.setState({ date });
+    console.log(date.valueOf());
+    this.props.addFromData(date.valueOf());
+  }
+
   render () {
+    console.log(this.state.date);
     return <div>
+      <div className="datepicker-box">
+        <DatePicker
+          onChange={this.onChange.bind(this)}
+          value={this.state.date}/>
+      </div>
       Hello TEST!
       {this.renderList()}
     </div>;

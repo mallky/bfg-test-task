@@ -20,7 +20,7 @@ const dataRed = (state = initialState, action) => {
         data
       };
       case types.ADD_FROM_DATE:
-        const fromDate = action.currentDate || state.currentDate;
+        const fromDate = action.fromDate;
 
       return {
         ...state,

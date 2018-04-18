@@ -22,7 +22,7 @@ module.exports = {
         loader: "babel-loader"
       },
       {
-        test: /\.less$/,
+        test: /\.css|\.less$/,
         use: extractLess.extract({
           use: [{
             loader: "css-loader",
