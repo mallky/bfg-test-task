@@ -10,16 +10,11 @@ const getData = (fromDate, addData) => {
       return res.json();
     })
     .then((data) => {
-      console.log(data);
-      if (typeof data === 'array') {
-        const neededData = data.items.filter((item) => {
+      const neededData = data.items.filter((item) => {
 
-          return /react-redux/i.test(item.title);
-        });
-        addData(neededData);
-      } else {
-        console.log('data is failed');
-      }
+        return /react-redux/i.test(item.title);
+      });
+      addData(neededData);
     });
 };
 

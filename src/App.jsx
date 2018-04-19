@@ -51,11 +51,10 @@ class App extends React.Component {
   }
 
   isDateChange() {
-    return this.state.date && this.state.date.valueOf() !== this.props.fromDate;
+    return this.state.date; // && this.state.date.valueOf() !== this.props.fromDate;
   }
 
   render () {
-    console.log(this.state.date);
     return <div>
       <div className="datepicker-box">
         <DatePicker
