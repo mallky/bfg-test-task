@@ -10,15 +10,15 @@ const getData = (fromDate, addData) => {
       return res.json();
     })
     .then((data) => {
-      const neededData = data.items.filter((item) => {
+      console.log(data);
+      if (typeof data === 'array') {
+        const neededData = data.items.filter((item) => {
 
-        return /react-redux/i.test(item.title);
-      });
-      if (typeof addData === 'function') {
+          return /react-redux/i.test(item.title);
+        });
         addData(neededData);
       } else {
-        console.log('asdasd');
-        return neededData;
+        console.log('data is failed');
       }
     });
 };

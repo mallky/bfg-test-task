@@ -46,6 +46,14 @@ class App extends React.Component {
     this.props.addFromData(date.valueOf());
   }
 
+  onFind() {
+    utils.getData(this.props.fromDate, this.props.addData);
+  }
+
+  isDateChange() {
+    return this.state.date && this.state.date.valueOf() !== this.props.fromDate;
+  }
+
   render () {
     console.log(this.state.date);
     return <div>
@@ -53,6 +61,8 @@ class App extends React.Component {
         <DatePicker
           onChange={this.onChange.bind(this)}
           value={this.state.date}/>
+        {this.isDateChange()
+          ? <button onClick={this.onFind.bind(this)}>Find</button> : null}
       </div>
       Hello TEST!
       {this.renderList()}
