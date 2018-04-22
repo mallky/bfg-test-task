@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import DatePicker from 'react-date-picker';
 import { connect } from 'react-redux';
 import { addData, addFromData } from './store/actions/actions';
+import CollapseBlock from './components/collapse-block/CollapseBlock.jsx';
 import utils from './utils/utils';
 
 
@@ -31,18 +32,33 @@ class App extends React.Component {
   }
 
   renderList() {
+    console.log(this.props.data);
     return <ol>
       {this.props.data.map((item, i) => {
         const answered = item.is_answered ? 'answered' : 'no-answered';
+        const title = {
+          title: item.title,
+          creationDate: item.creation_date,
+          link: item.link,
+          score: item.score
+        };
+        const collapsedText = item.owner;
 
-        return i < 5 ? <li key={i} className={`list-item ${answered}`}><p>{item.title}</p><p>Score: {item.score}</p></li> : null;
+        return i < 5 ?
+          <li
+            key={i}
+            className='list-item'>
+            <CollapseBlock
+              isAnswered={item.is_answered}
+              collapsed={collapsedText}
+              title={title}/>
+          </li> : null;
       }).filter((item) => item)}
     </ol>
   }
 
   onChange(date) {
     this.setState({ date });
-    console.log(date.valueOf());
     this.props.addFromData(date.valueOf());
   }
 
@@ -71,6 +87,6 @@ class App extends React.Component {
 
 export default App;
 
-App.PropTypes = {
-  data: PropTypes.array.isRequired
+App.propTypes = {
+  data: PropTypes.array
 };
