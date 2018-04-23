@@ -18,23 +18,23 @@ class CollapseBlock extends React.Component {
   }
 
   renderCollapseBlock() {
+    const creationDate = new Date(this.props.title.creationDate * 1000).toDateString();
+
     return <div className="collapsed">
       <p>Name: {this.props.collapsed.display_name}</p>
       <img
         src={this.props.collapsed.profile_image}
         alt={`image ${this.props.collapsed.display_name}`}/>
       <p>Reputation: {this.props.collapsed.reputation}</p>
+      <p>Creation date: {creationDate}</p>
+      <a href={this.props.title.link} target="_blank">Open question</a>
     </div>;
   }
 
   renderHeadBlock() {
-    const creationDate = new Date(this.props.title.creationDate * 1000).toDateString();
-
     return <React.Fragment>
       <p>Title: {this.props.title.title}</p>
-      <p>Creation date: {creationDate}</p>
       <p>Score: {this.props.title.score}</p>
-      <a href={this.props.title.link} target="_blank">Open question</a>
     </React.Fragment>;
   }
 
